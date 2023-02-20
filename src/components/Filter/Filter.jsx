@@ -1,9 +1,13 @@
 import React from 'react';
 import { nanoid } from 'nanoid';
 import css from './filter.module.css';
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectFilter } from 'redux/filter/filter-selector';
+import { filterContactAction } from 'redux/filter/filter-slice';
 
-const Filter = ({ filter, onChangeFilter }) => {
+const Filter = () => {
+  const filterValue = useSelector(selectFilter);
+ const  dispatch = useDispatch()
   const filterInputId = nanoid(4);
   return (
     <div>
@@ -13,16 +17,13 @@ const Filter = ({ filter, onChangeFilter }) => {
         type="text"
         name="filter"
         id={filterInputId}
-        value={filter}
-        onChange={onChangeFilter}
+        value={filterValue}
+        onChange={(e)=> dispatch(filterContactAction(e.target.value))}
       />
     </div>
   );
 };
 
-Filter.propTypes = {
-  filter: PropTypes.string.isRequired,
-  onChangeFilter: PropTypes.func.isRequired,
-}
+
 
 export default Filter;
